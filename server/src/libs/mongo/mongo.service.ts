@@ -1,13 +1,17 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { MongoClient } from 'mongodb';
+import { ConfigService } from '../../config/config/config.service';
 
 @Injectable()
 export class MongoService implements OnModuleInit {
-  private client: MongoClient | undefined;
   private clientPromise: Promise<MongoClient> | undefined;
+  private client: MongoClient | undefined;
+  private mongoClientPromise: Promise<MongoClient> | undefined;
+
+  constructor(private readonly configService: ConfigService) {}
 
   async onModuleInit() {
-    const uri = process.env.MONGODB_URI;
+    const uri = this.configService.get('MONGODB_URI');
     const options = {};
 
     if (!uri) {
@@ -19,12 +23,12 @@ export class MongoService implements OnModuleInit {
         "If you don't need it, remove the code from /libs/next-auth.js (see connectMongo())",
       );
       console.groupEnd();
-    } else if (process.env.NODE_ENV === 'development') {
-      if (!global._mongoClientPromise) {
+    } else if (this.configService.get('NODE_ENV') === 'development') {
+      if (!this.mongoClientPromise) {
         this.client = new MongoClient(uri, options);
-        global._mongoClientPromise = this.client.connect();
+        this.mongoClientPromise = this.client.connect();
       }
-      this.clientPromise = global._mongoClientPromise;
+      this.clientPromise = this.mongoClientPromise;
     } else {
       this.client = new MongoClient(uri, options);
       this.clientPromise = this.client.connect();
