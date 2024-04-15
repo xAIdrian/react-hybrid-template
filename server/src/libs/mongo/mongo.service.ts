@@ -1,12 +1,16 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { MongoClient } from 'mongodb';
-import { ConfigService } from '../../config/config/config.service';
+
+declare global {
+  // eslint-disable-next-line no-unused-vars, no-var
+  var _mongoClientPromise: Promise<MongoClient> | undefined;
+}
 
 @Injectable()
 export class MongoService implements OnModuleInit {
-  private clientPromise: Promise<MongoClient> | undefined;
   private client: MongoClient | undefined;
-  private mongoClientPromise: Promise<MongoClient> | undefined;
+  private clientPromise: Promise<MongoClient> | undefined;
 
   constructor(private readonly configService: ConfigService) {}
 
@@ -24,18 +28,14 @@ export class MongoService implements OnModuleInit {
       );
       console.groupEnd();
     } else if (this.configService.get('NODE_ENV') === 'development') {
-      if (!this.mongoClientPromise) {
+      if (!global._mongoClientPromise) {
         this.client = new MongoClient(uri, options);
-        this.mongoClientPromise = this.client.connect();
+        global._mongoClientPromise = this.client.connect();
       }
-      this.clientPromise = this.mongoClientPromise;
+      this.clientPromise = this.clientPromise;
     } else {
       this.client = new MongoClient(uri, options);
       this.clientPromise = this.client.connect();
     }
-  }
-
-  getClientPromise() {
-    return this.clientPromise;
   }
 }

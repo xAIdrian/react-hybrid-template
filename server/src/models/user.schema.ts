@@ -1,49 +1,49 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { Transform } from 'class-transformer';
+import mongoose from 'mongoose';
+import toJSON from './plugins/toJSON';
 
-@Schema({
-  timestamps: true,
-  toJSON: { virtuals: true },
-})
-export class User extends Document {
-  @Prop({ trim: true })
-  name: string;
-
-  @Prop({ trim: true, lowercase: true })
-  @Transform(({ value }) => value || null, { toClassOnly: true })
-  email: string;
-
-  @Prop()
-  image: string;
-
-  @Prop({
-    validate: {
-      validator: (value: string) => value.startsWith('cus_'),
-      message: 'customerId must start with "cus_"',
+// USER SCHEMA
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      trim: true,
     },
-  })
-  customerId: string;
-
-  @Prop({
-    validate: {
-      validator: (value: string) => value.startsWith('price_'),
-      message: 'priceId must start with "price_"',
+    email: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      private: true,
     },
-  })
-  priceId: string;
-
-  @Prop({ default: false })
-  hasAccess: boolean;
-}
-
-export const UserSchema = SchemaFactory.createForClass(User);
-
-// Implement toJSON or any other plugin functionality directly within the class if needed
-UserSchema.set('toJSON', {
-  transform: function (doc, ret) {
-    delete ret.__v; // Hide version key
-    return ret;
+    image: {
+      type: String,
+    },
+    // Used in the Stripe webhook to identify the user in Stripe and later create Customer Portal or prefill user credit card details
+    customerId: {
+      type: String,
+      validate(value: string) {
+        return value.includes('cus_');
+      },
+    },
+    // Used in the Stripe webhook. should match a plan in config.js file.
+    priceId: {
+      type: String,
+      validate(value: string) {
+        return value.includes('price_');
+      },
+    },
+    // Used to determine if the user has access to the product—it's turn on/off by the Stripe webhook
+    hasAccess: {
+      type: Boolean,
+      default: false,
+    },
   },
-  virtuals: true,
-});
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+  },
+);
+
+// add plugin that converts mongoose to json
+userSchema.plugin(toJSON);
+
+export default mongoose.models.User || mongoose.model('User', userSchema);
