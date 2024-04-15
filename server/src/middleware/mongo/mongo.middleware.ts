@@ -1,10 +1,11 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import connectMongo from 'src/libs/mongoose';
+import { MongooseService } from 'src/libs/mongoose/mongoose.service';
 
 @Injectable()
 export class MongoMiddleware implements NestMiddleware {
+  constructor(private readonly mongooseService: MongooseService) {}
   async use(req: any, res: any, next: () => void) {
-    await connectMongo();
+    await this.mongooseService.connect();
     next();
   }
 }

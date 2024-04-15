@@ -12,20 +12,16 @@ export class MongoService implements OnModuleInit {
   private client: MongoClient | undefined;
   private clientPromise: Promise<MongoClient> | undefined;
 
-  constructor(private readonly configService: ConfigService) {}
-
-  async onModuleInit() {
-    const uri = this.configService.get('MONGODB_URI');
+  constructor(private readonly configService: ConfigService) {
+    const uri = this.configService.get<string>('MONGODB_URI');
+    console.log(
+      '🚀 ~ file: mongo.service.ts:17 ~ MongoService ~ constructor ~ uri:',
+      uri,
+    );
     const options = {};
 
     if (!uri) {
-      console.group('⚠️ MONGODB_URI missing from .env');
-      console.error(
-        "It's not mandatory but a database is required for Magic Links.",
-      );
-      console.error(
-        "If you don't need it, remove the code from /libs/next-auth.js (see connectMongo())",
-      );
+      console.group('🔥 MONGODB_URI missing from .env');
       console.groupEnd();
     } else if (this.configService.get('NODE_ENV') === 'development') {
       if (!global._mongoClientPromise) {
@@ -38,4 +34,6 @@ export class MongoService implements OnModuleInit {
       this.clientPromise = this.client.connect();
     }
   }
+
+  async onModuleInit() {}
 }
