@@ -1,5 +1,5 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import { MongooseService } from 'src/libs/mongoose/mongoose.service';
+import { MongooseService } from '../..//libs/mongoose/mongoose.service';
 
 @Injectable()
 export class MongoMiddleware implements NestMiddleware {
