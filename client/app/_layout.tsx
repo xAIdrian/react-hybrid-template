@@ -5,9 +5,6 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { useColorScheme } from '@/components/useColorScheme';
-import TabLayout from './(tabs)/_layout';
-import LoginScreen from './login/loginscreen';
-import SignUp from './login/signupscreen';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -16,7 +13,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
+  initialRouteName: '(login)',
   // Ensure that the modal is always presented as a modal.
   modalPresentation: 'modal',
 };
@@ -59,17 +56,11 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack screenOptions={{ headerShown: false }}>
-          {
-            isAuthenticated ? (
-              <Stack.Screen name="(tabs)"/>
-            ) : (
-              <Stack.Screen name="login/loginscreen"/>
-            )
-          }
-          <Stack.Screen name="login/signupscreen"/>
-          {/* <Stack.Screen name="modal" options={{ presentation: 'modal' }} /> */}
-        </Stack>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(signup)"/>
+        <Stack.Screen name="(login)"/>
+        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+      </Stack>
     </ThemeProvider>
   );
 }

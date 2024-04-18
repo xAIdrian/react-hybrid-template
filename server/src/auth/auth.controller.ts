@@ -20,7 +20,12 @@ export class AuthController {
     @Request() req,
     @Body() body: { username: string; password: string },
   ) {
-    return this.authService.login(body);
+    const payload = this.authService.login(body);
+    console.log(
+      '🚀 ~ file: auth.controller.ts:24 ~ AuthController ~ payload:',
+      payload,
+    );
+    return payload;
   }
 
   @Post('signup')

@@ -6,7 +6,7 @@ export type User = any;
 
 @Injectable()
 export class UsersService {
-  async findOne(username: string): Promise<User | undefined> {
+  async findOne(username: string) {
     return User.findOne({ username: username }).exec();
   }
 

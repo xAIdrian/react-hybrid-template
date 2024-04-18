@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { MongooseService } from './libs/mongoose/mongoose.service';
 import { MongoClient } from 'mongodb';
 import { getMongoClientPromise } from './libs/mongo';
+import { MongoMiddleware } from './middleware/mongo/mongo.middleware';
 
 @Module({
   imports: [
@@ -32,4 +33,8 @@ import { getMongoClientPromise } from './libs/mongo';
     ConfigService,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(MongoMiddleware).forRoutes('*');
+  }
+}

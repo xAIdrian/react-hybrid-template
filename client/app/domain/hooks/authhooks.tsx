@@ -12,9 +12,10 @@ export const signUp = (userCredentials: {
   username: string;
   password: string;
 }): Observable<User> => {
-  return from(axios.post<UserResponse>(`${ROOT_URL}/api/signup`, userCredentials)).pipe(
+  return from(axios.post<UserResponse>(`${ROOT_URL}/auth/signup`, userCredentials)).pipe(
     map((response) => response.data),
     map((fullUser) => {
+      console.log('🚀 ~ file: authhooks.tsx:19 ~ map ~ fullUser:', fullUser);
       saveAccessToken(fullUser.access_token);
       const user: User = {
         username: fullUser.username,
@@ -38,9 +39,9 @@ export const signUp = (userCredentials: {
 export const login = (userCredentials: {
   username: string;
   password: string;
-}): Observable<User> => {
-  return from(axios.post<User>(`${ROOT_URL}/api/login`, userCredentials)).pipe(
-    map((response) => response.data),
+}): Observable<string> => {
+  return from(axios.post<{ access_token: string }>(`${ROOT_URL}/auth/login`, userCredentials)).pipe(
+    map((response) => response.data.access_token),
     catchError((error) => {
       console.error('Error signing in:', error);
       throw new Error('Error signing in');
