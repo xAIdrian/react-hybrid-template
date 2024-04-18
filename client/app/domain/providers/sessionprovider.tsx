@@ -9,3 +9,7 @@ export async function saveAccessToken(token: string): Promise<void> {
 export async function getAccessToken(): Promise<string | null> {
   return await SecureStore.getItemAsync(ACCESS_TOKEN);
 }
+
+export async function deleteSession(): Promise<void> {
+  await SecureStore.deleteItemAsync('userToken');
+}
