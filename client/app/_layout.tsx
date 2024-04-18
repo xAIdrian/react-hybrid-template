@@ -13,7 +13,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(home)',
+  // initialRouteName: '(login)',
   // Ensure that the modal is always presented as a modal.
   modalPresentation: 'modal',
 };
