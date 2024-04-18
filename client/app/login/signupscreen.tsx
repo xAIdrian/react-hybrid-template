@@ -1,10 +1,11 @@
 import { ThemeProvider, DarkTheme, DefaultTheme } from "@react-navigation/native";
-import { SplashScreen, Stack, useNavigation,  } from "expo-router";
+import { useNavigation,  } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import React from 'react';
 import { Button, TextInput, View, Text } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { signUp } from "../domain/hooks/authhooks";
 
 export default function SignUp() {
   type StackParamList = {
@@ -24,7 +25,7 @@ export default function SignUp() {
   const [password, setPassword] = React.useState('');
 
   const handleSignup = () => {
-    // handle login logic here
+    signUp({ username, password });
   };
 
   return (

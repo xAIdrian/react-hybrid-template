@@ -24,7 +24,11 @@ export class AuthController {
   }
 
   @Post('signup')
-  async signup(@Body() body: { username: string; password: string }) {
+  async signup(@Body() body: { username: string; password: string }): Promise<{
+    username: string;
+    createdAt: string;
+    access_token: string;
+  }> {
     return this.authService.signup(body);
   }
 

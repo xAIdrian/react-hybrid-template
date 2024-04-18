@@ -1,4 +1,6 @@
-{
+import 'dotenv/config';
+
+export default {
   "expo": {
     "name": "ReactTemplate",
     "slug": "ReactTemplate",
@@ -30,6 +32,9 @@
     "plugins": ["expo-router"],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "apiUrl": process.env.API_URL
+    },
   }
 }
