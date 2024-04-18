@@ -13,7 +13,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(login)',
+  initialRouteName: '(home)',
   // Ensure that the modal is always presented as a modal.
   modalPresentation: 'modal',
 };
@@ -59,6 +59,7 @@ function RootLayoutNav() {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(signup)"/>
         <Stack.Screen name="(login)"/>
+        <Stack.Screen name="(home)"/>
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>
