@@ -31,10 +31,6 @@ export const signUp = (userCredentials: {
         createdAt: fullUser.createdAt,
       };
       return user;
-    }),
-    catchError((error) => {
-      console.error('Error signing up:', error);
-      throw new Error('Error signing up');
     })
   );
 };

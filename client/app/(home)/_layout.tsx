@@ -1,7 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
-import React from 'react';
-import { Button, TextInput, View, Text } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text } from 'react-native';
 import { StackNavigationProp } from "@react-navigation/stack";
+import { axiosAuthRequest } from "../domain/helpers/axiosauthwrapper";
 
 export default function HomeScreen() {
   type StackParamList = {
@@ -18,9 +19,14 @@ export default function HomeScreen() {
 
   // const [username, setUsername] = React.useState('');
 
-  const handleButtonClick = () => {
-    
-  };
+  useEffect(() => {
+    // Assume a function to check auth token or logic here
+    // setIsAuthenticated(true or false based on the result);
+    axiosAuthRequest({
+      method: 'GET',
+      url: '/tournaments',
+    })
+  }, []);
 
   return (
     <View style={{ flex: 1, padding: 16 }}>
