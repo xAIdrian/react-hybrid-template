@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { MongooseService } from './libs/mongoose/mongoose.service';
+import { MongoClient } from 'mongodb';
+import { getMongoClientPromise } from './libs/mongo';
 
 @Module({
   imports: [
@@ -14,6 +16,20 @@ import { MongooseService } from './libs/mongoose/mongoose.service';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, MongooseService, ConfigService],
+  providers: [
+    {
+      provide: 'MONGO_CONNECTION',
+      useFactory: async (): Promise<MongoClient> => {
+        const mongoClient = await getMongoClientPromise();
+        if (!mongoClient) {
+          throw new Error('MongoClient not initialized');
+        }
+        return mongoClient;
+      },
+    },
+    AppService,
+    MongooseService,
+    ConfigService,
+  ],
 })
 export class AppModule {}
