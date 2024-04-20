@@ -20,18 +20,12 @@ export default function HomeScreen() {
   // const [username, setUsername] = React.useState('');
 
   useEffect(() => {
-    // Assume a function to check auth token or logic here
-    // setIsAuthenticated(true or false based on the result);
-    axiosAuthRequest({
-      method: 'GET',
-      url: '/tournaments',
-    })
+    //** */
   }, []);
 
   return (
     <View style={{ flex: 1, padding: 16 }}>
       <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Home</Text>
-      
     </View>
   );
 };
