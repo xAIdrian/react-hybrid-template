@@ -13,14 +13,15 @@ export function axiosRequest<T>(options: any): Observable<T> {
   );
 }
 
-export function axiosAuthRequest<T>(
+export async function axiosAuthRequest<T>(
   options: any
-): Observable<T> {
+): Promise<Observable<T>> {
+  const accessToken = await getAccessToken();
   return from(axios.request<T>({
     ...options,
     headers: {
       ...options.headers,
-      Authorization: `Bearer ${getAccessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   })).pipe(
     map((response) => response.data),

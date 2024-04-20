@@ -1,15 +1,17 @@
-import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ACCESS_TOKEN = 'access_token';
 
 export async function saveAccessToken(token: string): Promise<void> {
-  await SecureStore.setItemAsync(ACCESS_TOKEN, token);
+  console.log('🚀 ~ file: sessionprovider.tsx:6 ~ saveAccessToken ~ saveAccessToken:', saveAccessToken);
+  await AsyncStorage.setItem(ACCESS_TOKEN, token);
 }
 
 export async function getAccessToken(): Promise<string | null> {
-  return await SecureStore.getItemAsync(ACCESS_TOKEN);
+  console.log('🚀 ~ file: sessionprovider.tsx:11 ~ getAccessToken ~ getAccessToken:', getAccessToken);
+  return await AsyncStorage.getItem(ACCESS_TOKEN);
 }
 
 export async function deleteSession(): Promise<void> {
-  await SecureStore.deleteItemAsync('userToken');
+  await AsyncStorage.removeItem('userToken');
 }
