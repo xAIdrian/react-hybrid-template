@@ -16,13 +16,15 @@ export default {
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ship.posturepro"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ship.posturepro",
     },
     "web": {
       "bundler": "metro",
@@ -34,7 +36,11 @@ export default {
       "typedRoutes": true
     },
     "extra": {
-      "apiUrl": process.env.API_URL
+      "apiUrl": process.env.API_URL,
+      "revCatAppleKey": process.env.REV_CAT_APPLE_API_URL,
+      "eas": {
+        "projectId": "0ef5208a-29fe-4b98-998c-975261bf1feb"
+      }
     },
   }
 }
