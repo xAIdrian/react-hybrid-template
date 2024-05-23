@@ -8,11 +8,15 @@ export default function BillingModalScreen() {
   const [products, setProducts] = useState<PurchasesStoreProduct[]>([]);
 
   useEffect(() => {
-    Purchases.getProducts(
-      ['Pro']
-    ).then((products) => {
-      setProducts(products);
-    });
+    try {
+      const offerings = Purchases.getOfferings().then((offerings) => {
+        if (offerings.current !== null && offerings.current.availablePackages.length !== 0) {
+          // Display packages for sale
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   useEffect(() => {

@@ -5,14 +5,18 @@ import Constants from 'expo-constants';
 
 const APPLE_KEY = Constants.expoConfig?.extra?.revCatAppleKey;
 
-export default class AppInitialization extends React.Component {
+export default class AppInitialization {
   
-  componentDidMount(): void {
-    Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
+  static async kickoff(): Promise<void> {
+    
+    console.log('🚀 ~ file: app.tsx:13 ~ kickoff ~ ios', Purchases);
+    await Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
 
     if (Platform.OS === 'ios') {
-       Purchases.configure({ apiKey: APPLE_KEY });
-    } 
+      await Purchases.configure({ apiKey: APPLE_KEY });
+    }  else {
+      console.log('bunk')
+    }
   //   else if (Platform.OS === 'android') {
   //      Purchases.configure({apiKey: <revenuecat_project_google_api_key>});
 

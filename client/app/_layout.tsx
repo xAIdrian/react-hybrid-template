@@ -5,6 +5,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { useColorScheme } from '@/components/useColorScheme';
+import AppInitialization from './app';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -13,7 +14,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(login)',
+  initialRouteName: '(home)',
   // Ensure that the modal is always presented as a modal.
   modalPresentation: 'modal',
 };
@@ -26,6 +27,8 @@ export default function RootLayout() {
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   });
+
+  AppInitialization.kickoff();
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -60,7 +63,7 @@ function RootLayoutNav() {
         <Stack.Screen name="(signup)"/>
         <Stack.Screen name="(login)"/>
         <Stack.Screen name="(home)"/>
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="billing_modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>
   );
